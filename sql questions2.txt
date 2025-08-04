@@ -1,0 +1,76 @@
+(1) what is a view in MySQL
+Ans :
+
+A view is a virtual table in MySQL based on the result of a SELECT query.
+
+It does not store data physically; instead, it stores the SQL query and fetches data dynamically when accessed.
+
+Views are useful for security, simplification of complex queries, and data abstraction.
+
+(2) create a view that displays name and email from students table
+Ans :
+
+create view student_view as
+select sname, email
+from student;
+
+
+(3) write a program to retrieve the data from the created view
+Ans :
+
+select * from student_view;
+
+
+(4) update view of (2) if its updatable
+Ans :
+
+update student_view
+set email = 'sameer1@gmail.com'
+where sname = 'Sameer';
+
+
+(5) check the structure of a created view in MySQL
+Ans :
+
+desc student_view;
+OR
+show create view student_view;
+
+
+(6) WAP to display the view of faculty earning more than 72000
+Ans :
+
+create view high_salary_faculty as
+select tname, salary
+from faculty
+where salary > 72000;
+
+-- To retrieve data:
+select * from high_salary_faculty;
+
+
+(7) WAP to display the view joining student, course and faculty table
+Ans :
+
+create view student_course_faculty as
+select 
+    s.sname as student_name,
+    s.email as student_email,
+    c.cname as course_name,
+    f.tname as faculty_name
+from 
+    student s
+join 
+    course c on s.cid = c.cid
+join 
+    faculty f on s.tid = f.tid;
+
+-- To retrieve data:
+select * from student_course_faculty;
+
+
+(8) WAP to drop a created view if it exists
+Ans :
+
+drop view if exists student_view;
+

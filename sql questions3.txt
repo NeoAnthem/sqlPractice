@@ -1,0 +1,69 @@
+1. Find all students enrolled in a course with fees greater than 5000.
+(Use a subquery on courses collection inside an $lookup or $in query.)
+Ans:
+
+select * from student 
+where cid in ( select cid from course where fees > 5000);
+
+2. List teacher names who are assigned to a course with duration more than "6 months".
+Ans:
+
+select t.tname from teacher t join course c 
+on t.cid = c.cid
+where c.duration > '180 days';
+
+
+3. Display all students whose assigned teacher's salary is greater than 40000.
+Ans:
+
+select s.* from student as s
+join teacher as t on s.cid = t.cid
+where t.salary > 40000;
+
+4. Show course names where at least one student is enrolled.
+(Use subquery with $lookup to filter only linked courses.)
+Ans:
+
+select cname from course 
+where cid in (select distinct cid from student where cid is not null);
+
+5. List all students who are taught by teachers with a qualification of "Masters".
+Ans: -
+
+select s.* from student as s
+join teacher as t on s.cid = t.cid
+where t.qualification LIKE 'M%';
+
+6. Display students whose teacher name starts with "A" using subquery inside $lookup.
+Ans: -
+
+select * from student 
+where cid in (select cid from teacher where tname like 'A%');
+
+7. Get all teachers who are not assigned to any student.
+Ans: -
+
+select * from teacher 
+where cid not in (select distinct cid from student where cid is not null);
+
+
+8. Find students enrolled in the same course as student named "Ravi" (self subquery).
+Ans: -
+
+select * from student 
+where cid = (select cid from student where sname = 'Ravi' limit 1);
+
+9. Display teachers who teach more than 5 students.
+Ans: - 
+
+select t.tid, t.tname, count(s.sid) as total_students
+from teacher as t
+join student as s on t.cid = s.cid
+group by t.tid, t.tname
+having total_students > 5;
+
+10. List students enrolled in the most expensive course.
+Ans:
+
+select s.* from student as s
+where cid = (select cid from course order by fees desc limit 1);
