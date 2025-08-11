@@ -1,0 +1,86 @@
+1. Create a procedure count_students_in_course that accepts a course name as an IN parameter 
+and returns the total number of students enrolled in that course as an OUT parameter.
+Parameters:
+-- IN course_name VARCHAR(100)
+-- OUT student_count INT
+Ans : 
+
+delimiter //
+	create procedure count_students_in_course(in course_name varchar(100), out student_count int)
+    begin
+		select count(s.sid) into student_count
+        from student as s join course as c
+        on s.cid = c.cid
+        where c.cname = course_name;
+    end //
+delimiter ;
+
+call count_students_in_course('css', @count_students);
+select @count_students as student_count;
+
+2. Write a procedure calculate_hike that accepts a teacher’s ID and a hike percentage 
+as IN parameters, and returns the new salary as an OUT parameter.
+Parameters:
+-- IN teacher_id INT
+-- IN hike_percent DECIMAL(5,2)
+-- OUT new_salary DECIMAL(10,2)
+Ans : 
+
+delimiter //
+create procedure calculate_hike(
+    in teacher_id int,
+    in hike_percent decimal(5,2),
+    out new_salary decimal(10,2)
+)
+begin
+    declare current_salary decimal(10,2);
+
+    -- get the current salary of the teacher
+    select salary
+    into current_salary
+    from teacher
+    where tid = teacher_id;
+
+    -- calculate the new salary with hike
+    set new_salary = current_salary + (current_salary * hike_percent / 100);
+end //
+delimiter ;
+
+-- Example usage:
+set @new_sal = 0;
+
+call calculate_hike(7, 10.00, @new_sal); -- teacher id = 7, hike = 10%
+
+select @new_sal as updated_salary;
+
+3. Create a calculator using procedure which can perform operations such as addition, 
+subtraction, multiplication, division, square. Only one among them should be executed 
+as per option provided in parameter. and value should to return for reuseability.
+Ans :
+
+delimiter //
+	create procedure calculator(in num1 decimal(10,2), 
+		in num2 decimal(10,2), 
+		in operation varchar(20), 
+		out result decimal(10,2))
+    begin
+		case
+			when operation = 'add' then 
+				set result = num1 + num2;
+			when operation = 'sub' then
+				set result = num1 - num2;
+			when operation = 'mul' then
+				set result = num1 * num2;
+			when operation = 'div' then 
+				if num2 != 0 then 
+					set result = num1 / num2;
+				else 
+					set result = null;
+				end if;
+        end case;
+    end //
+delimiter ;
+
+set @result = 0;
+call calculator(10,5,'add',@result);
+select @result as answer;
