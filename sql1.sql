@@ -1,3 +1,4 @@
+
 -- 1. Create a procedure count_students_in_course that accepts a course name as an IN parameter 
 -- and returns the total number of students enrolled in that course as an OUT parameter.
 -- Parameters:
