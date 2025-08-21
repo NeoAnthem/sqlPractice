@@ -10,10 +10,10 @@ A personal repository for practicing and organizing various SQL assignments.
 - **sql questions1.sql** to **sql questions7.sql**  
   Sequentially numbered SQL script files, each containing a set of practice assignments or queries.
 
-- **sql1.sql**, **sql2.sql**, **sql3.sql**  
+- **sql1.sql**, **sql2.sql**, **sql3.sql**, .... , **sqlN.sql**
   Additional standalone SQL scripts with miscellaneous queries or exercises.
 
-- **sql test1.pdf**  
+- **sql test.pdf**  
   A PDF version of a test or assignment, likely used for offline reference or submission.
 
 ##  Usage
